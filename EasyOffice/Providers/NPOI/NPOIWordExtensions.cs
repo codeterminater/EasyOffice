@@ -71,7 +71,7 @@ namespace EasyOffice.Providers.NPOI
 
                 int height = (int)(Math.Ceiling(picture.Height * NPOI_PICTURE_LENGTH_EVERY_CM));
                 int width = (int)(Math.Ceiling(picture.Width * NPOI_PICTURE_LENGTH_EVERY_CM));
-
+                xwpfRun.SetText("");
                 xwpfRun.AddPicture(pictureData, picture.PictureType.GetHashCode(), picture.FileName, width, height);
 
                 CT_Inline inline = xwpfRun.GetCTR().GetDrawingList()[0].inline[0];
@@ -89,8 +89,10 @@ namespace EasyOffice.Providers.NPOI
             {
                 case Alignment.LEFT:
                     return ParagraphAlignment.LEFT;
+
                 case Alignment.CENTER:
                     return ParagraphAlignment.CENTER;
+
                 case Alignment.RIGHT:
                     return ParagraphAlignment.RIGHT;
             }
