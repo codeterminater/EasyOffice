@@ -8,9 +8,9 @@ namespace UnitTests.Models.bugs
     public class Issue6
     {
         [ColName("姓名")]
-        public string Name { get;set;}
+        public string Name { get; set; }
 
         [ColName("年龄")]
-        public string Age { get; set; }
+        public int Age { get; set; }
     }
 }

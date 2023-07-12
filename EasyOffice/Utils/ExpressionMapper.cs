@@ -91,6 +91,11 @@ namespace EasyOffice.Utils
             return (Func<List<ExcelDataCol>, T>)Table[key];
         }
 
+        private static string SafeString(string input)
+        {
+            return input?.ToString().Trim() ?? string.Empty;
+        }
+
         public static object ChangeType(string stringValue, Type type)
         {
             object obj = null;
@@ -109,7 +114,27 @@ namespace EasyOffice.Utils
             }
             else
             {
-                obj = Convert.ChangeType(stringValue, type);
+                //obj = Convert.ChangeType(stringValue, type);
+                stringValue = SafeString(stringValue);
+                bool success = false;
+                if (type.FullName.Equals(typeof(double).ToString()))
+                {
+                    if (string.IsNullOrEmpty(stringValue)) return 0.00;  //return 0; Cant cast Int32 to Double Exception
+                    success = double.TryParse(stringValue, out var result);
+                    if (!success)
+                        return 0;
+                    return Math.Round(result, 3);
+                }
+                else if (type.FullName.Equals(typeof(int).ToString())) // (type.IsInstanceOfType(typeof(int)))
+                {
+                    if (string.IsNullOrEmpty(stringValue)) return 0;
+                    success = int.TryParse(stringValue, out var result);
+                    if (!success)
+                        return 0;
+                    return result;
+                }
+                else
+                    obj = Convert.ChangeType(stringValue, type);
             }
 
             return obj;
